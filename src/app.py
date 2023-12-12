@@ -1,7 +1,11 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 
-from azure.cosmos import CosmosClient, PartitionKey
+# <imports>
+from azure.cosmos import CosmosClient
+from azure.identity import DefaultAzureCredential
+
+# </imports>
 
 import os
 import json
@@ -16,34 +20,33 @@ def index():
     return render_template("index.html")
 
 
-endpoint = os.getenv("ENDPOINT", default="https://localhost:8081")
-key = os.getenv(
-    "KEY",
-    default=(
-        "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE"
-        "2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="
-    ),
-)
+# <environment_variables>
+endpoint = os.getenv("ENDPOINT")
+# </environment_variables>
 
 print(f"ENDPOINT: {endpoint}")
-print(f"KEY: {key}")
 
 
 @socket.on("start", namespace="/cosmos-db-nosql")
 def start(data):
-    client = CosmosClient(url=endpoint, credential=key)
+    # <create_client>
+    credential = DefaultAzureCredential()
+    client = CosmosClient(url=endpoint, credential=credential)
+    # </create_client>
     emit("new_message", {"message": "Client connected."})
 
-    database = client.create_database_if_not_exists(id="cosmicworks")
+    # <get_database>
+    database = client.get_database_client(id="cosmicworks")
+    # </get_database>
+
     emit("new_message", {"message": f"Database [{database.id}] exists."})
 
-    container = database.create_container_if_not_exists(
-        id="products",
-        partition_key=PartitionKey(path="/categoryId"),
-        offer_throughput=400,
-    )
+    # <get_container>
+    container = database.get_container_client(id="products")
+    # </get_container>
     emit("new_message", {"message": f"Container [{container.id}] exists."})
 
+    # <create_item>
     new_item = {
         "id": "70b63682-b93a-4c77-aad2-65501347265f",
         "categoryId": "61dba35b-4f02-45c5-b648-c6badc0cbd79",
@@ -53,15 +56,32 @@ def start(data):
         "sale": False,
     }
     created_item = container.upsert_item(new_item)
+    # </create_item>
     emit(
         "new_message",
         {"message": f"New item [{created_item['name']}] upserted."},
     )
 
+    new_item = {
+        "id": "25a68543-b90c-439d-8332-7ef41e06a0e0",
+        "categoryId": "61dba35b-4f02-45c5-b648-c6badc0cbd79",
+        "categoryName": "gear-surf-surfboards",
+        "name": "Kiama Classic Surfboard",
+        "quantity": 4,
+        "sale": True,
+    }
+    created_item = container.upsert_item(new_item)
+    emit(
+        "new_message",
+        {"message": f"New item [{created_item['name']}] upserted."},
+    )
+
+    # <read_item>
     existing_item = container.read_item(
         item="70b63682-b93a-4c77-aad2-65501347265f",
         partition_key="61dba35b-4f02-45c5-b648-c6badc0cbd79",
     )
+    # </read_item>
     emit(
         "new_message",
         {
@@ -71,6 +91,7 @@ def start(data):
         },
     )
 
+    # <query_items>
     queryText = "SELECT * FROM products p WHERE p.categoryId = @categoryId"
     results = container.query_items(
         query=queryText,
@@ -82,8 +103,11 @@ def start(data):
         ],
         enable_cross_partition_query=False,
     )
+    # </query_items>
+    # <parse_results>
     items = [item for item in results]
     output = json.dumps(items, indent=True)
+    # </parse_results>
     emit("new_message", {"message": "NoSQL query performed."})
     emit("new_message", {"code": True, "message": queryText})
     emit("new_message", {"code": True, "message": output})
