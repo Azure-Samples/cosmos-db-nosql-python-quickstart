@@ -1,0 +1,25 @@
+name: Validate Python solution
+on:
+  schedule:
+    - cron: '0 0 * * 2'
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  validate-dotnet:
+    name: Validate Python solution
+    runs-on: ubuntu-latest
+    container: python:3.11
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4     
+      - name: Check Python version
+        run: python --version       
+      - name: Install packages
+        run: pip install black flake8
+      - name: Lint with flake8
+        run: flake8 --count --verbose *.py
+      - name: Check format with black
+        run: black --check --verbose --line-length 79 *.py
