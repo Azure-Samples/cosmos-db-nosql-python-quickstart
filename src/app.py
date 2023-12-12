@@ -36,13 +36,13 @@ def start(data):
     emit("new_message", {"message": "Client connected."})
 
     # <get_database>
-    database = client.get_database_client(id="cosmicworks")
+    database = client.get_database_client("cosmicworks")
     # </get_database>
 
     emit("new_message", {"message": f"Database [{database.id}] exists."})
 
     # <get_container>
-    container = database.get_container_client(id="products")
+    container = database.get_container_client("products")
     # </get_container>
     emit("new_message", {"message": f"Container [{container.id}] exists."})
 
@@ -116,5 +116,4 @@ if __name__ == "__main__":
         app,
         port=os.getenv("PORT", default=5000),
         debug=os.getenv("DEBUG", default=True),
-        host="0.0.0.0",
     )

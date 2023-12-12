@@ -6,14 +6,6 @@ targetScope = 'subscription'
 param environmentName string
 
 @minLength(1)
-@allowed([
-  'australiaeast'
-  'westeurope'
-  'japaneast'
-  'uksouth'
-  'eastus'
-  'southcentralus'
-])
 @description('Primary location for all resources.')
 param location string
 
