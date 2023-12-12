@@ -22,6 +22,10 @@ endpoint = os.getenv("COSMOS_DB_ENDPOINT")
 print(f"ENDPOINT: {endpoint}")
 
 
+def getLastRequestCharge(c):
+    return c.client_connection.last_response_headers["x-ms-request-charge"]
+
+
 @app.route("/")
 def index():
     return render_template("index.html", endpoint=endpoint)
@@ -63,7 +67,11 @@ def start(data):
     )
     emit(
         "new_message",
-        {"message": f"Request charge:\t{container.client_connection.last_response_headers['x-ms-request-charge']}"},
+        {
+            "message": (
+                "Request charge:\t" f"{getLastRequestCharge(container)}"
+            )
+        },
     )
 
     new_item = {
@@ -80,7 +88,7 @@ def start(data):
     )
     emit(
         "new_message",
-        {"message": f"Request charge:\t{container.client_connection.last_response_headers['x-ms-request-charge']}"},
+        {"message": f"Request charge:\t{getLastRequestCharge(container)}"},
     )
 
     # <read_item>
@@ -91,15 +99,15 @@ def start(data):
     # </read_item>
     emit(
         "new_message",
-        {"message": f"Read item id:\t{created_item['id']}"},
+        {"message": f"Read item id:\t{existing_item['id']}"},
     )
     emit(
         "new_message",
-        {"message": f"Read item:\t{created_item}"},
+        {"message": f"Read item:\t{existing_item}"},
     )
     emit(
         "new_message",
-        {"message": f"Request charge:\t{container.client_connection.last_response_headers['x-ms-request-charge']}"},
+        {"message": f"Request charge:\t{getLastRequestCharge(container)}"},
     )
 
     # <query_items>
