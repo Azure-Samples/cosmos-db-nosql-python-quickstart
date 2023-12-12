@@ -21,7 +21,7 @@ def index():
 
 
 # <environment_variables>
-endpoint = os.getenv("ENDPOINT")
+endpoint = os.getenv("COSMOS_DB_ENDPOINT")
 # </environment_variables>
 
 print(f"ENDPOINT: {endpoint}")
@@ -49,8 +49,7 @@ def start(data):
     # <create_item>
     new_item = {
         "id": "70b63682-b93a-4c77-aad2-65501347265f",
-        "categoryId": "61dba35b-4f02-45c5-b648-c6badc0cbd79",
-        "categoryName": "gear-surf-surfboards",
+        "category": "gear-surf-surfboards",
         "name": "Yamba Surfboard",
         "quantity": 12,
         "sale": False,
@@ -64,8 +63,7 @@ def start(data):
 
     new_item = {
         "id": "25a68543-b90c-439d-8332-7ef41e06a0e0",
-        "categoryId": "61dba35b-4f02-45c5-b648-c6badc0cbd79",
-        "categoryName": "gear-surf-surfboards",
+        "category": "gear-surf-surfboards",
         "name": "Kiama Classic Surfboard",
         "quantity": 4,
         "sale": True,
@@ -79,7 +77,7 @@ def start(data):
     # <read_item>
     existing_item = container.read_item(
         item="70b63682-b93a-4c77-aad2-65501347265f",
-        partition_key="61dba35b-4f02-45c5-b648-c6badc0cbd79",
+        partition_key="gear-surf-surfboards",
     )
     # </read_item>
     emit(
@@ -92,13 +90,13 @@ def start(data):
     )
 
     # <query_items>
-    queryText = "SELECT * FROM products p WHERE p.categoryId = @categoryId"
+    queryText = "SELECT * FROM products p WHERE p.category = @category"
     results = container.query_items(
         query=queryText,
         parameters=[
             dict(
-                name="@categoryId",
-                value="61dba35b-4f02-45c5-b648-c6badc0cbd79",
+                name="@category",
+                value="gear-surf-surfboards",
             )
         ],
         enable_cross_partition_query=False,
