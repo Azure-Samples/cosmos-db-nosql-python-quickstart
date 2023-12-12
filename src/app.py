@@ -15,11 +15,6 @@ app = Flask(__name__)
 socket = SocketIO(app)
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
 # <environment_variables>
 endpoint = os.getenv("COSMOS_DB_ENDPOINT")
 # </environment_variables>
@@ -27,24 +22,30 @@ endpoint = os.getenv("COSMOS_DB_ENDPOINT")
 print(f"ENDPOINT: {endpoint}")
 
 
+@app.route("/")
+def index():
+    return render_template("index.html", endpoint=endpoint)
+
+
 @socket.on("start", namespace="/cosmos-db-nosql")
 def start(data):
+    emit("new_message", {"message": "Current Status:\tStarting..."})
+
     # <create_client>
     credential = DefaultAzureCredential()
     client = CosmosClient(url=endpoint, credential=credential)
     # </create_client>
-    emit("new_message", {"message": "Client connected."})
 
     # <get_database>
     database = client.get_database_client("cosmicworks")
     # </get_database>
 
-    emit("new_message", {"message": f"Database [{database.id}] exists."})
+    emit("new_message", {"message": f"Get database:\t{database.id}"})
 
     # <get_container>
     container = database.get_container_client("products")
     # </get_container>
-    emit("new_message", {"message": f"Container [{container.id}] exists."})
+    emit("new_message", {"message": f"Get container:\t{container.id}"})
 
     # <create_item>
     new_item = {
@@ -58,7 +59,11 @@ def start(data):
     # </create_item>
     emit(
         "new_message",
-        {"message": f"New item [{created_item['name']}] upserted."},
+        {"message": f"Upserted item:\t{created_item}"},
+    )
+    emit(
+        "new_message",
+        {"message": f"Request charge:\t{container.client_connection.last_response_headers['x-ms-request-charge']}"},
     )
 
     new_item = {
@@ -71,7 +76,11 @@ def start(data):
     created_item = container.upsert_item(new_item)
     emit(
         "new_message",
-        {"message": f"New item [{created_item['name']}] upserted."},
+        {"message": f"Upserted item:\t{created_item}"},
+    )
+    emit(
+        "new_message",
+        {"message": f"Request charge:\t{container.client_connection.last_response_headers['x-ms-request-charge']}"},
     )
 
     # <read_item>
@@ -82,11 +91,15 @@ def start(data):
     # </read_item>
     emit(
         "new_message",
-        {
-            "message": (
-                f"Performed a point read of item [{existing_item['name']}]."
-            )
-        },
+        {"message": f"Read item id:\t{created_item['id']}"},
+    )
+    emit(
+        "new_message",
+        {"message": f"Read item:\t{created_item}"},
+    )
+    emit(
+        "new_message",
+        {"message": f"Request charge:\t{container.client_connection.last_response_headers['x-ms-request-charge']}"},
     )
 
     # <query_items>
@@ -106,8 +119,7 @@ def start(data):
     items = [item for item in results]
     output = json.dumps(items, indent=True)
     # </parse_results>
-    emit("new_message", {"message": "NoSQL query performed."})
-    emit("new_message", {"code": True, "message": queryText})
+    emit("new_message", {"message": "Found items:"})
     emit("new_message", {"code": True, "message": output})
 
 
