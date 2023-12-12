@@ -1,0 +1,5 @@
+Flask==3.*
+Flask-SocketIO==5.*
+Azure-Cosmos==4.*
+eventlet==0.*
+gunicorn==21.*
