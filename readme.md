@@ -40,7 +40,7 @@ This application utilizes the following Azure resources:
 - [**Azure Container Registry**](https://learn.microsoft.com/azure/container-registry/)
     - This services hosts the container image.
 - [**Azure Container Apps**](https://learn.microsoft.com/azure/container-apps/)
-    - This service hosts the ASP.NET Blazor web application.
+    - This service hosts the Flask web application.
 - [**Azure Cosmos DB for NoSQL**](https://learn.microsoft.com/azure/cosmos-db/) 
     - This service stores the NoSQL data.
 
