@@ -10,7 +10,7 @@ app = Flask(__name__)
 socket = SocketIO(app)
 
 # <environment_variables>
-endpoint = os.getenv("COSMOS_DB_ENDPOINT")
+endpoint = os.getenv("AZURE_COSMOS_DB_NOSQL_ENDPOINT")
 # </environment_variables>
 
 print(f"ENDPOINT: {endpoint}")
