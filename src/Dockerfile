@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.12
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY . .
 
 EXPOSE 8000
 
-ENV PORT 8000
-ENV DEBUG True
+ENV PORT=8000
+ENV DEBUG=True
 
-CMD gunicorn --worker-class eventlet --bind 0.0.0.0:8000 app:app
+CMD ["gunicorn", "--worker-class", "eventlet", "--bind", "0.0.0.0:8000", "app:app"]
