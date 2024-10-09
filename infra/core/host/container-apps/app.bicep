@@ -8,7 +8,7 @@ param tags object = {}
 param parentEnvironmentName string
 
 @description('Specifies the docker container image to deploy.')
-param containerImage string = 'mcr.microsoft.com/azuredocs/containerapps-helloworld:latest'
+param containerImage string = 'mcr.microsoft.com/k8se/quickstart:latest'
 
 @description('Specifies the container port.')
 param targetPort int = 80

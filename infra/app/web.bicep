@@ -39,7 +39,6 @@ module containerAppsApp '../core/host/container-apps/app.bicep' = {
         secretRef: 'azure-cosmos-db-nosql-endpoint' // Reference to secret
       }
     ]
-    targetPort: 8000
     enableSystemAssignedManagedIdentity: true
   }
 }
