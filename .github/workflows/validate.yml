@@ -6,7 +6,7 @@ jobs:
   validate-python:
     name: Validate Python solution
     runs-on: ubuntu-latest
-    container: python:3.11
+    container: python:3.12
     steps:
       - name: Checkout code
         uses: actions/checkout@v4     
