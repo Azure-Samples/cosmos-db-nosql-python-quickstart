@@ -1,6 +1,6 @@
 Flask==3.*
 Flask-SocketIO==5.*
-azure-data-tables==12.*
+azure-cosmos==4.*
 azure-identity==1.*
 gunicorn==23.*
 eventlet==0.*
