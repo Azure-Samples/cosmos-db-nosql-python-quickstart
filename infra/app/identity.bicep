@@ -4,7 +4,7 @@ param identityName string
 param location string = resourceGroup().location
 param tags object = {}
 
-module userAssignedIdentity '../core/security/identity/user-assigned.bicep' = {
+module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
   name: 'user-assigned-identity'
   params: {
     name: identityName
