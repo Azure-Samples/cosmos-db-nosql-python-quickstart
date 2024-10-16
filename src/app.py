@@ -9,22 +9,15 @@ app = Flask(__name__)
 
 socket = SocketIO(app)
 
-# <environment_variables>
-endpoint = os.getenv("AZURE_COSMOS_DB_NOSQL_ENDPOINT")
-# </environment_variables>
-
-print(f"ENDPOINT: {endpoint}")
-
-
 @app.route("/")
 def index():
-    return render_template("index.html", endpoint=endpoint)
+    return render_template("index.html")
 
 
 @socket.on("start", namespace="/cosmos-db-nosql")
 def start(data):
     emitOutput("Current Status:\tStarting...")
-    runDemo(endpoint, emitOutput)
+    runDemo(emitOutput)
 
 
 def emitOutput(message, isCode=False):
