@@ -75,5 +75,5 @@ def runDemo(writeOutput):
     items = [item for item in results]
     output = json.dumps(items, indent=True)
 
-    writeOutput("Found items:")
+    writeOutput("Found items: ")
     writeOutput(output, isCode=True)
