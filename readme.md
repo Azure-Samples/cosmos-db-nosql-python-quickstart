@@ -1,6 +1,6 @@
 ---
 page_type: sample
-name: Quickstart: Azure Cosmos DB for NoSQL and Azure SDK for Python
+name: "Quickstart: Azure Cosmos DB for NoSQL and Azure SDK for Python"
 description: This is a simple Flask web application to illustrate common basic usage of Azure Cosmos DB for NoSQL and the Azure SDK for Python.
 urlFragment: template
 languages:
