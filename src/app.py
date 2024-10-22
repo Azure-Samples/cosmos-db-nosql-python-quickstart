@@ -7,7 +7,11 @@ import os
 
 app = Flask(__name__)
 
-socket = SocketIO(app)
+socket = SocketIO(
+    app,
+    cors_allowed_origins="*",
+    transports=["websocket", "polling"]
+)
 
 @app.route("/")
 def index():

@@ -3,7 +3,9 @@
 {% block script %}
 <script type="text/javascript">
     $(document).ready(function() {
-        var socket = io('/cosmos-db-nosql');
+        var socket = io('/cosmos-db-nosql', {
+            transports: ['websocket', 'polling']
+        });
 
         socket.on('connect', function() {});
         socket.on('new_message', function(data) {
