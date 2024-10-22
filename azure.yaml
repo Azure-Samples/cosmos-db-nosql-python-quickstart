@@ -11,3 +11,5 @@ services:
     docker:
       path: ./Dockerfile
       context: ./
+pipeline:
+  provider: github
