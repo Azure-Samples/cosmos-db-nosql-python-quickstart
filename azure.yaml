@@ -13,3 +13,25 @@ services:
       context: ./
 pipeline:
   provider: github
+hooks:
+  postprovision:
+    posix:
+      shell: sh
+      interactive: true
+      continueOnError: false
+      run: |
+        echo "
+        CONFIGURATION__AZURECOSMOSDB__ENDPOINT=\"$CONFIGURATION__AZURECOSMOSDB__ENDPOINT\"
+        CONFIGURATION__AZURECOSMOSDB__DATABASENAME=\"$CONFIGURATION__AZURECOSMOSDB__DATABASENAME\"
+        CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME=\"$CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME\"
+        " > ./src/.env
+    windows:
+      shell: pwsh
+      interactive: true
+      continueOnError: false
+      run: |
+        echo "
+        CONFIGURATION__AZURECOSMOSDB__ENDPOINT=""$env:CONFIGURATION__AZURECOSMOSDB__ENDPOINT""
+        CONFIGURATION__AZURECOSMOSDB__DATABASENAME=""$env:CONFIGURATION__AZURECOSMOSDB__DATABASENAME""
+        CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME=""$env:CONFIGURATION__AZURECOSMOSDB__CONTAINERNAME""
+        " > ./src/.env
