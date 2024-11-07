@@ -33,7 +33,7 @@ def runDemo(writeOutput):
     writeOutput(f"Get container:\t{container.id}")
 
     new_item = {
-        "id": "70b63682-b93a-4c77-aad2-65501347265f",
+        "id": "aaaaaaaa-0000-1111-2222-bbbbbbbbbbbb",
         "category": "gear-surf-surfboards",
         "name": "Yamba Surfboard",
         "quantity": 12,
@@ -45,7 +45,7 @@ def runDemo(writeOutput):
     writeOutput("Request charge:\t" f"{getLastRequestCharge(container)}")
 
     new_item = {
-        "id": "25a68543-b90c-439d-8332-7ef41e06a0e0",
+        "id": "bbbbbbbb-1111-2222-3333-cccccccccccc",
         "category": "gear-surf-surfboards",
         "name": "Kiama Classic Surfboard",
         "quantity": 4,
@@ -56,7 +56,7 @@ def runDemo(writeOutput):
     writeOutput(f"Request charge:\t{getLastRequestCharge(container)}")
 
     existing_item = container.read_item(
-        item="70b63682-b93a-4c77-aad2-65501347265f",
+        item="aaaaaaaa-0000-1111-2222-bbbbbbbbbbbb",
         partition_key="gear-surf-surfboards",
     )
 
