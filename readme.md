@@ -16,13 +16,13 @@ products:
 
 This is a simple Flask web application to illustrate common basic usage of Azure Cosmos DB for NoSQL's client library for Python. This sample application accesses an existing account, database, and container using the [`azure-cosmos`](https://pypi.org/project/azure-cosmos/) and [`azure-identity`](https://pypi.org/project/azure-identity/) packages from PyPi.
 
-### Prerequisites
+## Prerequisites
 
 - [Docker](https://www.docker.com/)
 - [Azure Developer CLI](https://aka.ms/azd-install)
 - [Python 3.12](https://www.python.org/downloads/)
 
-### Quickstart
+## Quickstart
 
 1. Log in to Azure Developer CLI.
 
