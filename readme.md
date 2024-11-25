@@ -12,9 +12,9 @@ products:
 ---
 -->
 
-# Quickstart: Azure Cosmos DB for NoSQL client library for Python
+# Quickstart: Azure Cosmos DB for NoSQL - Azure SDK for Python
 
-This is a simple Flask web application to illustrate common basic usage of Azure Cosmos DB for NoSQL's client library for Python. This sample application accesses an existing account, database, and container using the [`azure-cosmos`](https://pypi.org/project/azure-cosmos/) and [`azure-identity`](https://pypi.org/project/azure-identity/) packages from PyPi.
+This is a simple Flask web application to illustrate common basic usage of Azure Cosmos DB for NoSQL with the Azure SDK for Python.
 
 ## Prerequisites
 
@@ -24,14 +24,11 @@ This is a simple Flask web application to illustrate common basic usage of Azure
 
 ## Quickstart
 
-1. Log in to Azure Developer CLI.
+1. Log in to Azure Developer CLI. *This is only required once per-install.*
 
     ```bash
     azd auth login
     ```
-
-    > [!TIP]
-    > This is only required once per-install.
 
 1. Initialize this template (`cosmos-db-nosql-python-quickstart`) using `azd init`
 
