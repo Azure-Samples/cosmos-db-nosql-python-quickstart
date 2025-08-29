@@ -3,5 +3,5 @@ Flask-SocketIO==5.4.1
 azure-cosmos==4.7.0
 azure-identity==1.19.0
 gunicorn==23.0.0
-eventlet==0.37.0
+eventlet==0.40.3
 python-dotenv==1.0.1
